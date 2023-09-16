@@ -32,4 +32,4 @@ async def play(ctx, url):
         voice_client.play(discord.FFmpegPCMAudio(url2))
 
 # Run the bot with your token
-bot.run('1082674668097503372')
+bot.run('MTA4MjY3NDY2ODA5NzUwMzM3Mg.G2sEG6.QUseEzsZz8pOigw2XarvHzmQZGFRQReYY7nS8w')
