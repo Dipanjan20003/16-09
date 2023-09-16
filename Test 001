@@ -1,0 +1,35 @@
+import discord
+from discord.ext import commands
+import youtube_dl
+import ffmpeg
+
+# Create a bot instance with a command prefix
+bot = commands.Bot(command_prefix='!')
+
+# Function to join a voice channel
+@bot.command()
+async def join(ctx):
+    channel = ctx.message.author.voice.channel
+    await channel.connect()
+
+# Function to play music from a YouTube URL
+@bot.command()
+async def play(ctx, url):
+    ydl_opts = {
+        'format': 'bestaudio/best',
+        'postprocessors': [{
+            'key': 'FFmpegExtractAudio',
+            'preferredcodec': 'mp3',
+            'preferredquality': '192',
+        }],
+    }
+
+    voice_client = ctx.voice_client
+    with youtube_dl.YoutubeDL(ydl_opts) as ydl:
+        info = ydl.extract_info(url, download=False)
+        url2 = info['formats'][0]['url']
+        voice_client.stop()
+        voice_client.play(discord.FFmpegPCMAudio(url2))
+
+# Run the bot with your token
+bot.run('YOUR_BOT_TOKEN')
